@@ -1,8 +1,8 @@
 # =========================================================================
 # 1. 显式定义当前编译的板子类型（在这里切换 GIMBAL_BOARD 或 CHASSIS_BOARD）
 # =========================================================================
-set(BOARD "GIMBAL_BOARD")
-#set(BOARD "CHASSIS_BOARD")
+#set(BOARD "GIMBAL_BOARD")
+set(BOARD "CHASSIS_BOARD")
 
 # =========================================================================
 # 2. 声明Sentry目标文件库（OBJECT库，仅编译目标文件不链接，保留原工程逻辑）
@@ -53,6 +53,8 @@ elseif (BOARD STREQUAL "CHASSIS_BOARD")
             Application/Chassis_Board/pyro_chassis_app.cpp
 
             # === Chassis 模块 ===
+            Modules/Chassis/pyro_rudder_chassis.cpp
+
 
             pyro_mission_planer.cpp
             pyro_init_thread.cpp
@@ -77,6 +79,7 @@ target_include_directories(Sentry
         ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Booster
         ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Chassis
         ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Gimbal
+        ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Communication
         ${CMAKE_CURRENT_SOURCE_DIR}
     )
 

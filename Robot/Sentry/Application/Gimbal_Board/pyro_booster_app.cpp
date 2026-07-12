@@ -4,6 +4,5 @@
 #if BOARD == GIMBAL_BOARD
 
 #include "pyro_module_base.h"
-#include "pyro_sentry_gimbal.h"
 
 #endif
