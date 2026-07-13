@@ -65,15 +65,17 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/cmake/stm32cubemx)
 add_subdirectory(PYRo)
 
 
- if (ROBOT_ID EQUAL HERO_ID)
+if (ROBOT_ID EQUAL HERO_ID)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/hero)
- elseif (ROBOT_ID EQUAL SUB_HERO_ID)
-     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/sub_hero)
- elseif(ROBOT_ID EQUAL INFANTRY2_ID)
-     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/infantry2)
- elseif(ROBOT_ID EQUAL SENTRY_ID)
-     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/sentry)
- endif ()
+elseif (ROBOT_ID EQUAL SUB_HERO_ID)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/sub_hero)
+elseif(ROBOT_ID EQUAL INFANTRY2_ID)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/infantry2)
+elseif(ROBOT_ID EQUAL SENTRY_ID)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/sentry)
+elseif(ROBOT_ID EQUAL UAV_ID)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/uav)
+endif ()
 
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
@@ -88,7 +90,8 @@ if (ROBOT_ID EQUAL HERO_ID)
     target_link_libraries(${CMAKE_PROJECT_NAME} Hero)
 elseif (ROBOT_ID EQUAL SENTRY_ID)
     target_link_libraries(${CMAKE_PROJECT_NAME} Sentry)
+elseif (ROBOT_ID EQUAL UAV_ID)
+    target_link_libraries(${CMAKE_PROJECT_NAME} UAV)
 endif()
 
 add_dependencies(echo_robot_id ${CMAKE_PROJECT_NAME})
-
