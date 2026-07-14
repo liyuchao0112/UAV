@@ -1,6 +1,7 @@
 #include "pyro_uav_gimbal.h"
 #include "pyro_ins.h"
 #include "pyro_algo_common.h"
+#include <algorithm>
 
 namespace pyro {
 
@@ -57,8 +58,11 @@ void uav_gimbal_t::_mec_control(gimbal_ctx_t *ctx) {
     //pitch速度环
     ctx->data.out_pitch_torque =
         ctx->cfg.pid_cfg.pitch_spd_pid->calculate(
-            ctx->data.target_pitch_radps, ctx->data.current_motor_pitch_radps)
-        - uav_gimbal::GRAVITY_OFFSET * cos(ctx->data.current_imu_pitch_rad); //重力补偿（使用了imu的数据）
+            ctx->data.target_pitch_radps, ctx->data.current_motor_pitch_radps);
+        // + uav_gimbal::GRAVITY_OFFSET * cos(ctx->data.current_imu_pitch_rad); //重力补偿（使用了imu的数据）
+    
+    ctx->data.out_pitch_torque = std::clamp(ctx->data.out_pitch_torque,
+        uav_gimbal::PITCH_MIN_MOTOR_TORQUE, uav_gimbal::PITCH_MAX_MOTOR_TORQUE);
 
     //yaw位置环
     ctx->data.target_yaw_radps =
@@ -69,9 +73,13 @@ void uav_gimbal_t::_mec_control(gimbal_ctx_t *ctx) {
     ctx->data.out_yaw_torque =
         ctx->cfg.pid_cfg.yaw_spd_pid->calculate(
             ctx->data.target_yaw_radps, ctx->data.current_motor_yaw_radps);
+
+    ctx->data.out_yaw_torque = std::clamp(ctx->data.out_yaw_torque,
+        uav_gimbal::YAW_MIN_MOTOR_TORQUE, uav_gimbal::YAW_MAX_MOTOR_TORQUE);
 }
 
 void uav_gimbal_t::_imu_control(gimbal_ctx_t *ctx) {
+    //pitch位置环
     ctx->data.target_pitch_radps =
         ctx->cfg.pid_cfg.pitch_pos_pid->calculate(
             ctx->data.target_pitch_rad, ctx->data.current_imu_pitch_rad);

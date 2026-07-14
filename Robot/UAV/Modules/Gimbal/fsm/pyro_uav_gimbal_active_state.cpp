@@ -37,6 +37,13 @@ void uav_gimbal_t::state_active_t::execute(owner *owner) {
             owner->_ctx.data.target_pitch_rad, uav_gimbal::PITCH_MIN_MOTOR_RAD, uav_gimbal::PITCH_MAX_MOTOR_RAD);
         owner->_ctx.data.target_yaw_rad = std::clamp(
             owner->_ctx.data.target_yaw_rad, uav_gimbal::YAW_MIN_MOTOR_RAD, uav_gimbal::YAW_MAX_MOTOR_RAD);
+
+        //角度超限，理论上不会
+        const float yaw_error = owner->_ctx.data.target_yaw_rad - owner->_ctx.data.current_motor_yaw_rad;
+        if (yaw_error > PI)
+            owner->_ctx.data.target_yaw_rad -= 2.0f * PI;
+        else if (yaw_error < -PI)
+            owner->_ctx.data.target_yaw_rad += 2.0f * PI;
         
         _mec_control(&owner->_ctx);
     }
