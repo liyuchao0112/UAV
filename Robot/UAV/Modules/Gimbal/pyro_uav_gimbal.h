@@ -4,6 +4,7 @@
 #include "pyro_module_base.h"
 #include "pyro_motor_base.h"
 #include "pyro_algo_pid.h"
+
 #include "uav_gimbal_config.h"
 
 namespace pyro {
@@ -39,7 +40,6 @@ struct uav_gimbal_cfg_t {
 
 class uav_gimbal_t final
         : public module_base_t<uav_gimbal_t, uav_gimbal_cmd_t, uav_gimbal_cfg_t> {
-    
     friend class module_base_t;
 
     struct data_ctx_t;

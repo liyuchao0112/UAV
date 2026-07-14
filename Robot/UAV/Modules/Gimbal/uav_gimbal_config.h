@@ -15,6 +15,6 @@ constexpr float YAW_MAX_MOTOR_TORQUE{1.0f}, YAW_MIN_MOTOR_TORQUE{-1.0f};
 
 constexpr float RC_PITCH_COEFFICIENT{0.005f}, RC_YAW_COEFFICIENT{0.002f};
 
-}
+} // namespace uav_gimbal
 
 #endif

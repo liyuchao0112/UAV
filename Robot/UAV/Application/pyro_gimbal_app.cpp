@@ -13,8 +13,6 @@
 
 using namespace pyro;
 
-virtual_rc_t d_vrc;
-
 uav_gimbal_cmd_t *gimbal_cmd_ptr = nullptr;
 uav_gimbal_cfg_t *gimbal_cfg_ptr = nullptr;
 uav_gimbal_t *gimbal_ptr = nullptr;
@@ -43,7 +41,6 @@ void gimbal_config() {
 void gimbal_vt032cmd(uint32_t notify_val) {
     pyro::read_scope_lock lock(pyro::rc_drv_t::get_lock());
     auto &vrc = pyro::rc_drv_t::read();
-    d_vrc=vrc;
 
     if(vrc.switches.gear.current_pos == pyro::sw_pos_t::UP) {
         gimbal_cmd_ptr->mode = uav_gimbal_cmd_t::mode_t::PASSIVE;
@@ -64,7 +61,6 @@ void gimbal_vt032cmd(uint32_t notify_val) {
 }
 
 extern "C" {
-
     void uav_gimbal_thread(void *argument) {
         while(true) {
             uint32_t notify_val = 0;

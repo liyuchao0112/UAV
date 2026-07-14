@@ -14,8 +14,8 @@ target_sources(UAV
         Modules/Gimbal/fsm/pyro_uav_gimbal_passive_state.cpp
 
         # === Booster 模块 ===
+        Modules/Booster/pyro_uav_booster.cpp
         
-
         pyro_mission_planer.cpp
         pyro_init_thread.cpp
     )
@@ -24,6 +24,7 @@ target_sources(UAV
 target_include_directories(UAV
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Gimbal
+        ${CMAKE_CURRENT_SOURCE_DIR}/Modules/Booster
         ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
