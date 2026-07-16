@@ -22,7 +22,7 @@ void uav_booster_t::_update_feedback() {
     _ctx.data.current_fric_radps[1] = _ctx.cfg.motor.fric[1]->get_current_rotate();
 
     _ctx.data.current_trigger_rad =
-        loop_fp32_constrain(_ctx.cfg.motor.trigger->get_current_position() - uav_booster::TRIGGER_OFFSET, -PI, PI);
+        loop_fp32_constrain(_ctx.cfg.motor.trigger->get_current_position(), -PI, PI);
     _ctx.data.current_trigger_radps = _ctx.cfg.motor.trigger->get_current_rotate();
 }
 
@@ -35,6 +35,49 @@ void uav_booster_t::_fsm_execute() {
         _main_fsm.change_state(&_active_state);
 
     _main_fsm.execute(this);
+}
+
+bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
+    return std::fabs(ctx->data.current_fric_radps[0]
+            - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS ) < uav_booster::FRIC_RADPS_TOLERANCE
+        && std::fabs(ctx->data.current_fric_radps[1]
+            - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS ) < uav_booster::FRIC_RADPS_TOLERANCE;
+}
+
+void uav_booster_t::_fric_control(booster_ctx_t *ctx) {
+    ctx->data.out_fric_torque[0] =
+        ctx->cfg.pid.fric_pid[0]->calculate(ctx->data.target_fric_radps[0], ctx->data.current_fric_radps[0]);
+    ctx->data.out_fric_torque[1] =
+        ctx->cfg.pid.fric_pid[1]->calculate(ctx->data.target_fric_radps[1], ctx->data.current_fric_radps[1]);
+}
+
+void uav_booster_t::_trigger_control(booster_ctx_t *ctx) {
+    if(ctx->data.trigger_mode == uav_booster_t::data_ctx_t::trigger_pid_mode_e::POS) {
+        //处理过零点问题
+        const float error = ctx->data.target_trigger_rad - ctx->data.current_trigger_rad;
+        if (error > PI)
+            ctx->data.target_trigger_rad -= 2.0f * PI;
+        else if (error < -PI)
+            ctx->data.target_trigger_rad += 2.0f * PI;
+
+        ctx->data.target_trigger_radps =
+            ctx->cfg.pid.trigger_pos_pid->calculate(ctx->data.target_trigger_rad, ctx->data.current_trigger_rad);
+        ctx->data.out_trigger_torque =
+            ctx->cfg.pid.trigger_spd_pid->calculate(ctx->data.target_trigger_radps, ctx->data.current_trigger_radps);
+    }
+    if(ctx->data.trigger_mode == uav_booster_t::data_ctx_t::trigger_pid_mode_e::SPD) {
+        ctx->data.out_trigger_torque =
+            ctx->cfg.pid.trigger_spd_pid->calculate(ctx->data.target_trigger_radps, ctx->data.current_trigger_radps);
+    }
+}
+
+void uav_booster_t::_send_fric_command(booster_ctx_t *ctx) {
+    ctx->cfg.motor.fric[0]->send_torque(ctx->data.out_fric_torque[0]);
+    ctx->cfg.motor.fric[1]->send_torque(ctx->data.out_fric_torque[1]);
+}
+
+void uav_booster_t::_send_trigger_command(booster_ctx_t *ctx) {
+    ctx->cfg.motor.trigger->send_torque(ctx->data.out_trigger_torque);
 }
 
 } // namespace pyro

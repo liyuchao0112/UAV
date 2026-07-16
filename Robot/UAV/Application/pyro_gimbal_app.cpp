@@ -32,7 +32,7 @@ void gimbal_config() {
     //没写跟踪微分器，先空着
     
     //pid
-    gimbal_cfg_ptr->pid_cfg.yaw_pos_pid = new pid_t(24.5f, 0.0f, 0.0f, 0.0f, 10.0f, 50, 20, 4);
+    gimbal_cfg_ptr->pid_cfg.yaw_pos_pid = new pid_t(20.5f, 0.0f, 0.0f, 0.0f, 10.0f, 50, 20, 4);
     gimbal_cfg_ptr->pid_cfg.yaw_spd_pid = new pid_t(0.3f, 0.08f, 0.0003f, 1.5f, 3.0f, 50, 20, 4);
     gimbal_cfg_ptr->pid_cfg.pitch_pos_pid = new pid_t(15.2f, 0.0004f, 0.006f, 0.4f, 9.0f, 50, 30, 4);
     gimbal_cfg_ptr->pid_cfg.pitch_spd_pid = new pid_t(1.18f, 0.068f, 0.006f, 1.8f, 7.0f, 30, 15, 4);
@@ -41,6 +41,14 @@ void gimbal_config() {
 void gimbal_vt032cmd(uint32_t notify_val) {
     pyro::read_scope_lock lock(pyro::rc_drv_t::get_lock());
     auto &vrc = pyro::rc_drv_t::read();
+
+    if(!gimbal_cmd_ptr->is_enable) {
+        gimbal_cmd_ptr->mode = uav_gimbal_cmd_t::mode_t::PASSIVE;
+        gimbal_cmd_ptr->target_pitch_delta_angle = 0.0f;
+        gimbal_cmd_ptr->target_yaw_delta_angle = 0.0f;
+
+        return;
+    }
 
     if(vrc.switches.gear.current_pos == pyro::sw_pos_t::UP) {
         gimbal_cmd_ptr->mode = uav_gimbal_cmd_t::mode_t::PASSIVE;
@@ -81,6 +89,8 @@ extern "C" {
         gimbal_cmd_ptr = new uav_gimbal_cmd_t();
         gimbal_cfg_ptr = new uav_gimbal_cfg_t();
         gimbal_ptr = uav_gimbal_t::instance();
+
+        gimbal_cmd_ptr->is_enable = false;
 
         gimbal_config();
         gimbal_ptr->configure(*gimbal_cfg_ptr);

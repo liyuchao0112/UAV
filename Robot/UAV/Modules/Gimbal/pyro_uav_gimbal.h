@@ -10,6 +10,8 @@
 namespace pyro {
 
 struct uav_gimbal_cmd_t final : public cmd_base_t {
+    bool is_enable; //云台是否启用，主要调试用，代码中不使用
+
     //由控制器产生的期望值
     float target_pitch_angle, target_yaw_angle;
     float target_pitch_delta_angle, target_yaw_delta_angle; //位置环模拟移动速度
@@ -17,7 +19,7 @@ struct uav_gimbal_cmd_t final : public cmd_base_t {
     bool is_imu_control;
 
     uav_gimbal_cmd_t() 
-        : target_pitch_angle(0.0f), target_yaw_angle(0.0f),
+        : is_enable(false), target_pitch_angle(0.0f), target_yaw_angle(0.0f),
             target_pitch_delta_angle(0.0f), target_yaw_delta_angle(0.0f), is_imu_control(false) {}
 };
 

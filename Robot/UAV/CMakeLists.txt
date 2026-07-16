@@ -7,6 +7,7 @@ target_sources(UAV
         PRIVATE
         # === Application ===
         Application/pyro_gimbal_app.cpp
+        Application/pyro_booster_app.cpp
 
         # === Gimbal 模块 ===
         Modules/Gimbal/pyro_uav_gimbal.cpp
@@ -15,6 +16,12 @@ target_sources(UAV
 
         # === Booster 模块 ===
         Modules/Booster/pyro_uav_booster.cpp
+        Modules/Booster/fsm/pyro_uav_booster_active_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_waiting_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_ready_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_single_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_continue_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_passive_state.cpp
         
         pyro_mission_planer.cpp
         pyro_init_thread.cpp

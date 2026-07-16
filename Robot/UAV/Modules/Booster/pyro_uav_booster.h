@@ -10,13 +10,15 @@
 namespace pyro {
 
 struct uav_booster_cmd_t final : public cmd_base_t {
+    bool is_enable; //发射机构是否启用，主要调试用，代码中不使用
+
     bool is_fric_on;            // 摩擦轮是否开启
     bool single_shoot;          // 触发单发
     bool continue_shoot;        // 触发连发
     bool heat_control_on{false}; // 热量控制开关，false时跳过所有热量限制（调试用）
     bool fire_licence{};        // 发射许可，为false时拨弹盘绝对不允许转动
 
-    uav_booster_cmd_t() : is_fric_on(false), single_shoot(false), continue_shoot(false) {}
+    uav_booster_cmd_t() : is_enable(false), is_fric_on(false), single_shoot(false), continue_shoot(false) {}
 };
 
 struct uav_booster_cfg_t {
@@ -57,6 +59,11 @@ class uav_booster_t final
     void _fsm_execute() override;
 
     // --- 私有方法 ---
+    static bool _is_fric_ready(booster_ctx_t *ctx);
+    static void _fric_control(booster_ctx_t *ctx);
+    static void _trigger_control(booster_ctx_t *ctx);
+    static void _send_fric_command(booster_ctx_t *ctx);
+    static void _send_trigger_command(booster_ctx_t *ctx);
 
     // --- 成员变量 ---
 
@@ -70,6 +77,11 @@ class uav_booster_t final
         
         float out_fric_torque[2]{0.0f};
         float out_trigger_torque{0.0f};
+
+        enum class trigger_pid_mode_e {
+            POS,
+            SPD
+        } trigger_mode{trigger_pid_mode_e::POS};
     };
 
     struct booster_ctx_t {
@@ -90,6 +102,18 @@ class uav_booster_t final
     };
 
     struct fsm_active_t : public fsm_t<owner> {
+        struct state_waiting_t : public state_t<owner> {
+            void enter(owner *owner) override;
+            void execute(owner *owner) override;
+            void exit(owner *owner) override;
+        };
+
+        struct state_ready_t : public state_t<owner> {
+            void enter(owner *owner) override;
+            void execute(owner *owner) override;
+            void exit(owner *owner) override;
+        };
+
         struct state_single_t : public state_t<owner> {
             void enter(owner *owner) override;
             void execute(owner *owner) override;
@@ -105,6 +129,12 @@ class uav_booster_t final
         void on_enter(owner *owner) override;
         void on_execute(owner *owner) override;
         void on_exit(owner *owner) override;
+        
+      private:
+        state_waiting_t _waiting_state;
+        state_ready_t _ready_state;
+        state_single_t _single_state;
+        state_continue_t _continue_state;
     };
 
     state_passive_t _passive_state;
