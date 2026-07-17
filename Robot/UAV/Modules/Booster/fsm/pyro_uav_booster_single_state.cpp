@@ -5,13 +5,18 @@ extern pyro::uav_booster_cmd_t *booster_cmd_ptr;
 namespace pyro {
 
 void uav_booster_t::fsm_active_t::state_single_t::enter(owner *owner) {
+    // booster_cmd_ptr->single_shoot = false;
+
+    // owner->_ctx.data.trigger_mode = uav_booster_t::data_ctx_t::trigger_pid_mode_e::SPD;
+    // owner->_ctx.data.target_trigger_radps = 10.0f * uav_booster::TRIGGER_REDUCTION_RATIO;  // 固定转速
+
+    // last_trigger_rad = owner->_ctx.data.current_trigger_rad;
+    // total_trigger_rotate_rad = 0.0f;
+
     booster_cmd_ptr->single_shoot = false;
+    owner->_ctx.data.trigger_mode = uav_booster_t::data_ctx_t::trigger_pid_mode_e::POS;
 
-    owner->_ctx.data.trigger_mode = uav_booster_t::data_ctx_t::trigger_pid_mode_e::SPD;
-    owner->_ctx.data.target_trigger_radps = 10.0f * uav_booster::TRIGGER_REDUCTION_RATIO;  // 固定转速
-
-    last_trigger_rad = owner->_ctx.data.current_trigger_rad;
-    total_trigger_rotate_rad = 0.0f;
+    owner->
 }
 
 void uav_booster_t::fsm_active_t::state_single_t::execute(owner *owner) {

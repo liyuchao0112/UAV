@@ -4,7 +4,7 @@
 namespace uav_gimbal {
 
 constexpr float PITCH_MOTOR_OFFSET{0.0f};
-constexpr float GRAVITY_OFFSET{0.01f};
+constexpr float GRAVITY_OFFSET{0.0f};
 constexpr float PITCH_MAX_MOTOR_RAD{1.29f}, PITCH_MIN_MOTOR_RAD{0.26f};
 constexpr float PITCH_MAX_MOTOR_RADPS{30.0f}, PITCH_MIN_MOTOR_RADPS{-30.0f};
 constexpr float PITCH_MAX_MOTOR_TORQUE{7.0f}, PITCH_MIN_MOTOR_TORQUE{-7.0f};

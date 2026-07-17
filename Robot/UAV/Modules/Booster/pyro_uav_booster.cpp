@@ -38,6 +38,9 @@ void uav_booster_t::_fsm_execute() {
 }
 
 bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
+    //<debug>: 让摩擦轮在调试拨弹盘时不启动也能进发射状态
+    return true;
+    //</debug>
     return (std::fabs(ctx->data.current_fric_radps[0])
             - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS) < uav_booster::FRIC_RADPS_TOLERANCE
         && (std::fabs(ctx->data.current_fric_radps[1])
@@ -45,6 +48,11 @@ bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
 }
 
 void uav_booster_t::_fric_control(booster_ctx_t *ctx) {
+    //<debug>: 使摩擦轮在调试拨弹盘时不启动
+    ctx->data.out_fric_torque[0] = 0.0f;
+    ctx->data.out_fric_torque[1] = 0.0f;
+    return;
+    //</debug>
     ctx->data.out_fric_torque[0] =
         ctx->cfg.pid.fric_pid[0]->calculate(ctx->data.target_fric_radps[0], ctx->data.current_fric_radps[0]);
     ctx->data.out_fric_torque[1] =
@@ -60,14 +68,14 @@ void uav_booster_t::_trigger_control(booster_ctx_t *ctx) {
         else if (error < -PI)
             ctx->data.target_trigger_rad += 2.0f * PI;
 
-        // 死区，防止由于安装间隙导致的振动
-        if(std::fabs(ctx->data.target_trigger_rad - ctx->data.current_trigger_rad)
-                < uav_booster::TRIGGER_RAD_DEADZONE * uav_booster::TRIGGER_REDUCTION_RATIO ) {
-            ctx->data.target_trigger_radps = 0.0f;
-            ctx->data.out_trigger_torque =0.0f;
+        // // 死区，防止由于安装间隙导致的振动
+        // if(std::fabs(ctx->data.target_trigger_rad - ctx->data.current_trigger_rad)
+        //         < uav_booster::TRIGGER_RAD_DEADZONE * uav_booster::TRIGGER_REDUCTION_RATIO ) {
+        //     ctx->data.target_trigger_radps = 0.0f;
+        //     ctx->data.out_trigger_torque =0.0f;
             
-            return;
-        }
+        //     return;
+        // }
 
         ctx->data.target_trigger_radps =
             ctx->cfg.pid.trigger_pos_pid->calculate(ctx->data.target_trigger_rad, ctx->data.current_trigger_rad);
