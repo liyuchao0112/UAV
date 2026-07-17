@@ -18,7 +18,8 @@ struct uav_booster_cmd_t final : public cmd_base_t {
     bool heat_control_on{false}; // 热量控制开关，false时跳过所有热量限制（调试用）
     bool fire_licence{};        // 发射许可，为false时拨弹盘绝对不允许转动
 
-    uav_booster_cmd_t() : is_enable(false), is_fric_on(false), single_shoot(false), continue_shoot(false) {}
+    uav_booster_cmd_t() : is_enable(false), is_fric_on(false), single_shoot(false), continue_shoot(false),
+        fire_licence(false) {}
 };
 
 struct uav_booster_cfg_t {
@@ -118,6 +119,11 @@ class uav_booster_t final
             void enter(owner *owner) override;
             void execute(owner *owner) override;
             void exit(owner *owner) override;
+
+          private:
+            float total_trigger_rotate_rad{0.0f};
+            float circle_count{0.0f};
+            float last_trigger_rad{0.0f};
         };
 
         struct state_continue_t : public state_t<owner> {

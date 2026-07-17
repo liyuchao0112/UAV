@@ -33,6 +33,8 @@ extern "C" {
         ins_drv = ins_drv_t::get_instance();
         ins_drv->init();
 
+        pyro::rc_drv_t::init_virtual_rc();
+
 #ifdef DR16_UART
         dr16_drv_t::instance().start();
         dr16_drv_t::instance().enable();

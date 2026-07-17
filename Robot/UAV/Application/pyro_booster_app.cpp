@@ -28,11 +28,11 @@ void booster_config() {
     booster_cfg_ptr->motor.trigger = new dji_m2006_motor_drv_t(dji_motor_tx_frame_t::id_4,can_hub_t::can1);
 
     //摩擦轮pid初始化
-    booster_cfg_ptr->pid.fric_pid[0] = new pid_t(0.0f, 0.0f, 0.007f, 1.0f, 20, 60, 15, 4);
-    booster_cfg_ptr->pid.fric_pid[1] = new pid_t(0.0f, 0.0f, 0.007f, 1.0f, 20, 60, 15, 4);
+    booster_cfg_ptr->pid.fric_pid[0] = new pid_t(0.3f, 0.0f, 0.0f, 1.0f, 20, 60, 15, 4);
+    booster_cfg_ptr->pid.fric_pid[1] = new pid_t(0.3f, 0.0f, 0.0f, 1.0f, 20, 60, 15, 4);
 
     //拨弹盘pid初始化
-    booster_cfg_ptr->pid.trigger_pos_pid = new pid_t(5.8f, 0.00048f, 0.00023f, 1.0f, 15.0f, 60, 30, 4);
+    booster_cfg_ptr->pid.trigger_pos_pid = new pid_t(8.8f, 0.00048f, 0.00023f, 1.0f, 15.0f, 60, 30, 4);;
     booster_cfg_ptr->pid.trigger_spd_pid = new pid_t(5.8f, 0.00055f, 0.00033f, 1.0f, 15.0f, 60, 30, 4);
 }
 
@@ -56,6 +56,8 @@ void booster_vt032cmd(uint32_t notify_val) {
     }
     if(vrc.switches.gear.current_pos == pyro::sw_pos_t::MID) {
         booster_cmd_ptr->mode = uav_booster_cmd_t::mode_t::ACTIVE;
+        booster_cmd_ptr->fire_licence = true; //没接热量管理，所以临时直接授予发射许可
+
         if(notify_val & EVENT_BIT_FRIC_TOGGLE)
             booster_cmd_ptr->is_fric_on = !booster_cmd_ptr->is_fric_on;
         
@@ -68,9 +70,8 @@ void booster_vt032cmd(uint32_t notify_val) {
             booster_cmd_ptr->continue_shoot =true;
         }
 
-        if(notify_val & EVENT_BIT_CONTINUE_END) {
+        if(notify_val & EVENT_BIT_CONTINUE_END)
             booster_cmd_ptr->continue_shoot = false;
-        }
     }
 }
 

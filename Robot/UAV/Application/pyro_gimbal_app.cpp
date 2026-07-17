@@ -90,7 +90,7 @@ extern "C" {
         gimbal_cfg_ptr = new uav_gimbal_cfg_t();
         gimbal_ptr = uav_gimbal_t::instance();
 
-        gimbal_cmd_ptr->is_enable = false;
+        gimbal_cmd_ptr->is_enable = true;
 
         gimbal_config();
         gimbal_ptr->configure(*gimbal_cfg_ptr);
