@@ -21,9 +21,26 @@ void uav_booster_t::_update_feedback() {
     _ctx.data.current_fric_radps[0] = _ctx.cfg.motor.fric[0]->get_current_rotate();
     _ctx.data.current_fric_radps[1] = _ctx.cfg.motor.fric[1]->get_current_rotate();
 
-    _ctx.data.current_trigger_rad =
-        loop_fp32_constrain(_ctx.cfg.motor.trigger->get_current_position(), -PI, PI);
-    _ctx.data.current_trigger_radps = _ctx.cfg.motor.trigger->get_current_rotate();
+    _ctx.data.current_trigger_radps =
+        _ctx.cfg.motor.trigger->get_current_rotate() / uav_booster::TRIGGER_REDUCTION_RATIO;
+
+    _ctx.data.current_trigger_torque = _ctx.cfg.motor.trigger->get_current_torque();
+
+    const float now_trigger_rad = _ctx.cfg.motor.trigger->get_current_position();
+
+    float delta_rad = now_trigger_rad - _ctx.data.last_trigger_rad;
+    if (delta_rad > PI)
+        delta_rad -= 2.0f * PI;
+    else if (delta_rad < -PI)
+        delta_rad += 2.0f * PI;
+
+    _ctx.data.current_trigger_rad +=delta_rad / uav_booster::TRIGGER_REDUCTION_RATIO;
+
+    _ctx.data.last_trigger_rad = now_trigger_rad;
+
+    // _ctx.data.current_trigger_rad =
+    //     loop_fp32_constrain(_ctx.cfg.motor.trigger->get_current_position(), -PI, PI);
+    // _ctx.data.current_trigger_radps = _ctx.cfg.motor.trigger->get_current_rotate();
 }
 
 void uav_booster_t::_fsm_execute() {
@@ -38,9 +55,6 @@ void uav_booster_t::_fsm_execute() {
 }
 
 bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
-    //<debug>: 让摩擦轮在调试拨弹盘时不启动也能进发射状态
-    return true;
-    //</debug>
     return (std::fabs(ctx->data.current_fric_radps[0])
             - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS) < uav_booster::FRIC_RADPS_TOLERANCE
         && (std::fabs(ctx->data.current_fric_radps[1])
@@ -48,11 +62,6 @@ bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
 }
 
 void uav_booster_t::_fric_control(booster_ctx_t *ctx) {
-    //<debug>: 使摩擦轮在调试拨弹盘时不启动
-    ctx->data.out_fric_torque[0] = 0.0f;
-    ctx->data.out_fric_torque[1] = 0.0f;
-    return;
-    //</debug>
     ctx->data.out_fric_torque[0] =
         ctx->cfg.pid.fric_pid[0]->calculate(ctx->data.target_fric_radps[0], ctx->data.current_fric_radps[0]);
     ctx->data.out_fric_torque[1] =

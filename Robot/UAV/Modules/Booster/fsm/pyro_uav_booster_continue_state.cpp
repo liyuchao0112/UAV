@@ -6,7 +6,7 @@ void uav_booster_t::fsm_active_t::state_continue_t::enter(owner *owner) {
     owner->_ctx.data.trigger_mode = uav_booster_t::data_ctx_t::trigger_pid_mode_e::SPD;
 
     owner->_ctx.data.target_trigger_radps =
-        uav_booster::TRIGGER_CONTINUOUS_RADPS *uav_booster::TRIGGER_REDUCTION_RATIO;
+        uav_booster::TRIGGER_CONTINUOUS_RADPS;
 }
 
 void uav_booster_t::fsm_active_t::state_continue_t::execute(owner *owner) {

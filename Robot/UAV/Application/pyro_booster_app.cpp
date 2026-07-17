@@ -40,8 +40,8 @@ void booster_config() {
     booster_cfg_ptr->pid.fric_pid[1] = new pid_t(0.3f, 0.0f, 0.0f, 1.0f, 20, 60, 15, 4);
 
     //拨弹盘pid初始化
-    booster_cfg_ptr->pid.trigger_pos_pid = new pid_t(5.8f, 0.0f, 0.0f, 1.0f, 15.0f, 60, 30, 4);
-    booster_cfg_ptr->pid.trigger_spd_pid = new pid_t(0.15f, 0.001f, 0.0f, 1.0f, 15.0f, 60, 30, 4);
+    booster_cfg_ptr->pid.trigger_pos_pid = new pid_t(30.0f, 0.01f, 0.0f, 1.0f, 15.0f, 60, 30, 4);
+    booster_cfg_ptr->pid.trigger_spd_pid = new pid_t(4.0f, 0.01f, 0.0f, 1.0f, 15.0f, 60, 30, 4);
 }
 
 void booster_vt032cmd(uint32_t notify_val) {

@@ -8,9 +8,11 @@ constexpr float FRIC_RADPS_TOLERANCE{100.0f}, FRIC_RADPS_DEADZONE{30.0f};
 
 constexpr float TRIGGER_REDUCTION_RATIO{36.0f};
 constexpr float TRIGGER_CONTINUOUS_RADPS{10.0f};
-constexpr float TRIGGER_RAD_TOLERANCE{0.05f}, TRIGGER_RAD_DEADZONE{0.05f};
+constexpr float TRIGGER_RAD_TOLERANCE{0.01f}, TRIGGER_RAD_DEADZONE{0.05f};
 
 constexpr float TARGET_BULLET_SPEED{18.5f};
+
+constexpr float SINGLE_BULLET_RAD{pyro::PI / 4.0f};
 
 } // namespace uav_booster
 

@@ -75,6 +75,9 @@ class uav_booster_t final
 
         float current_fric_radps[2]{0.0f};
         float current_trigger_rad, current_trigger_radps{0.0f};
+        float current_trigger_torque;
+
+        float last_trigger_rad;
         
         float out_fric_torque[2]{0.0f};
         float out_trigger_torque{0.0f};
@@ -120,10 +123,10 @@ class uav_booster_t final
             void execute(owner *owner) override;
             void exit(owner *owner) override;
 
-          private:
-            float total_trigger_rotate_rad{0.0f};
-            float circle_count{0.0f};
-            float last_trigger_rad{0.0f};
+        //   private:
+        //     float total_trigger_rotate_rad{0.0f};
+        //     float circle_count{0.0f};
+        //     float last_trigger_rad{0.0f};
         };
 
         struct state_continue_t : public state_t<owner> {
