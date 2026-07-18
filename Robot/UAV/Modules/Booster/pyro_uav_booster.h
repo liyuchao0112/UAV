@@ -122,11 +122,6 @@ class uav_booster_t final
             void enter(owner *owner) override;
             void execute(owner *owner) override;
             void exit(owner *owner) override;
-
-        //   private:
-        //     float total_trigger_rotate_rad{0.0f};
-        //     float circle_count{0.0f};
-        //     float last_trigger_rad{0.0f};
         };
 
         struct state_continue_t : public state_t<owner> {

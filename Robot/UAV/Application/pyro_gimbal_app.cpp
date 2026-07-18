@@ -20,6 +20,8 @@ uav_gimbal_t *gimbal_ptr = nullptr;
 
 static TaskHandle_t gimbal_task_handle = nullptr;
 
+// virtual_rc_t d_vrc;
+
 void gimbal_config() {
     gimbal_cfg_ptr->motor_cfg.pitch = new dm_motor_drv_t(0x01,0x00,can_hub_t::can2);
     gimbal_cfg_ptr->motor_cfg.yaw = new dji_gm_6020_motor_drv_t(dji_motor_tx_frame_t::id_5,can_hub_t::can2);
@@ -35,7 +37,7 @@ void gimbal_config() {
     //pid
     gimbal_cfg_ptr->pid_cfg.yaw_pos_pid = new pid_t(15.5f, 0.0f, 0.0f, 0.0f, 10.0f, 50, 20, 4);
     gimbal_cfg_ptr->pid_cfg.yaw_spd_pid = new pid_t(0.3f, 0.08f, 0.0003f, 1.5f, 3.0f, 50, 20, 4);
-    gimbal_cfg_ptr->pid_cfg.pitch_pos_pid = new pid_t(15.2f, 0.0004f, 0.006f, 0.4f, 9.0f, 50, 30, 4);
+    gimbal_cfg_ptr->pid_cfg.pitch_pos_pid = new pid_t(20.2f, 0.0004f, 0.006f, 0.4f, 9.0f, 50, 30, 4);
     gimbal_cfg_ptr->pid_cfg.pitch_spd_pid = new pid_t(1.18f, 0.068f, 0.006f, 1.8f, 7.0f, 30, 15, 4);
 }
 
@@ -72,6 +74,8 @@ void gimbal_vt032cmd(uint32_t notify_val) {
 void gimbal_dr162cmd(uint32_t notify_val) {
     pyro::read_scope_lock lock(pyro::rc_drv_t::get_lock());
     auto &vrc = pyro::rc_drv_t::read();
+
+    // d_vrc = vrc;
 
     if(!gimbal_cmd_ptr->is_enable) {
         gimbal_cmd_ptr->mode = uav_gimbal_cmd_t::mode_t::PASSIVE;

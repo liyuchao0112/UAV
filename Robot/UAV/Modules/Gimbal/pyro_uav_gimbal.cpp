@@ -54,12 +54,19 @@ void uav_gimbal_t::_mec_control(gimbal_ctx_t *ctx) {
     ctx->data.target_pitch_radps =
         ctx->cfg.pid_cfg.pitch_pos_pid->calculate(
             ctx->data.target_pitch_rad, ctx->data.current_motor_pitch_rad);
+
+    //打了几个点 ai拟合的
+    // 2. 双项正弦高精度拟合 (傅里叶级数)
+    float term1 = 0.455f * sinf(2.12f * ctx->data.current_motor_pitch_rad - 0.58f);
+    float term2 = 0.038f * sinf(10.5f * ctx->data.current_motor_pitch_rad + 1.85f);
+
+    ctx->data.gravity_compensate = -0.762f + term1 + term2;
     
     //pitch速度环
     ctx->data.out_pitch_torque =
         ctx->cfg.pid_cfg.pitch_spd_pid->calculate(
-            ctx->data.target_pitch_radps, ctx->data.current_motor_pitch_radps);
-        // + uav_gimbal::GRAVITY_OFFSET * cos(ctx->data.current_imu_pitch_rad); //重力补偿（使用了imu的数据）
+            ctx->data.target_pitch_radps, ctx->data.current_motor_pitch_radps)
+        + ctx->data.gravity_compensate; //重力补偿（使用了imu的数据）
     
     ctx->data.out_pitch_torque = std::clamp(ctx->data.out_pitch_torque,
         uav_gimbal::PITCH_MIN_MOTOR_TORQUE, uav_gimbal::PITCH_MAX_MOTOR_TORQUE);

@@ -92,6 +92,8 @@ class uav_gimbal_t final
         float target_yaw_rad{0.0f};
         float target_yaw_radps{0.0f};
 
+        float gravity_compensate{0.0f};
+
         //输出
         float out_pitch_torque{0.0f};
         float out_yaw_torque{0.0f};

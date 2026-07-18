@@ -5,6 +5,7 @@ namespace uav_booster {
 
 constexpr float FRIC_RADIUS{0.03f};
 constexpr float FRIC_RADPS_TOLERANCE{100.0f}, FRIC_RADPS_DEADZONE{30.0f};
+constexpr float FRIC_SHOOT_TORQUE_THRESHOLD{20.0f};
 
 constexpr float TRIGGER_REDUCTION_RATIO{36.0f};
 constexpr float TRIGGER_CONTINUOUS_RADPS{10.0f};
