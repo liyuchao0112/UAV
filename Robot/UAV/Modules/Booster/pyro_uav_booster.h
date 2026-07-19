@@ -130,6 +130,15 @@ class uav_booster_t final
             void exit(owner *owner) override;           
         };
 
+        struct state_calibrate_t : public state_t<owner> {
+            void enter(owner *owner) override;
+            void execute(owner *owner) override;
+            void exit(owner *owner) override;
+
+          public:
+            uint32_t time = 0;
+        };
+
         void on_enter(owner *owner) override;
         void on_execute(owner *owner) override;
         void on_exit(owner *owner) override;
@@ -139,6 +148,7 @@ class uav_booster_t final
         state_ready_t _ready_state;
         state_single_t _single_state;
         state_continue_t _continue_state;
+        state_calibrate_t _calibrate_state;
     };
 
     state_passive_t _passive_state;

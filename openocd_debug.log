@@ -1,0 +1,140 @@
+Open On-Chip Debugger 0.12.0
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+User : 3 1 options.c:52 configuration_output_handler(): debug_level: 3
+User : 4 1 options.c:52 configuration_output_handler(): 
+Debug: 5 1 options.c:233 add_default_dirs(): bindir=/usr/bin
+Debug: 6 1 options.c:234 add_default_dirs(): pkgdatadir=/usr/share/openocd
+Debug: 7 1 options.c:235 add_default_dirs(): exepath=/usr/bin
+Debug: 8 1 options.c:236 add_default_dirs(): bin2data=../share/openocd
+Debug: 9 1 configuration.c:33 add_script_search_dir(): adding /home/coaster/.config/openocd
+Debug: 10 1 configuration.c:33 add_script_search_dir(): adding /home/coaster/.openocd
+Debug: 11 1 configuration.c:33 add_script_search_dir(): adding /usr/bin/../share/openocd/site
+Debug: 12 1 configuration.c:33 add_script_search_dir(): adding /usr/bin/../share/openocd/scripts
+Debug: 13 1 command.c:155 script_debug(): command - ocd_find h7dap.cfg
+Debug: 14 1 configuration.c:88 find_file(): found h7dap.cfg
+Debug: 15 1 command.c:155 script_debug(): command - adapter driver cmsis-dap
+Debug: 16 1 command.c:155 script_debug(): command - cmsis_dap_backend hid
+Debug: 17 1 command.c:155 script_debug(): command - cmsis_dap_vid_pid 0x04d8 0x00df
+Debug: 18 1 command.c:155 script_debug(): command - transport select swd
+Debug: 19 1 command.c:155 script_debug(): command - adapter speed 1000
+Debug: 20 1 adapter.c:251 adapter_config_khz(): handle adapter khz
+Debug: 21 1 adapter.c:215 adapter_khz_to_speed(): convert khz to adapter specific speed value
+Debug: 22 1 adapter.c:215 adapter_khz_to_speed(): convert khz to adapter specific speed value
+Debug: 23 1 command.c:155 script_debug(): command - ocd_find target/stm32h7x.cfg
+Debug: 24 1 configuration.c:88 find_file(): found /usr/bin/../share/openocd/scripts/target/stm32h7x.cfg
+Debug: 25 1 command.c:155 script_debug(): command - ocd_find target/swj-dp.tcl
+Debug: 26 1 configuration.c:88 find_file(): found /usr/bin/../share/openocd/scripts/target/swj-dp.tcl
+Debug: 27 1 command.c:155 script_debug(): command - transport select
+Debug: 28 1 command.c:155 script_debug(): command - ocd_find mem_helper.tcl
+Debug: 29 1 configuration.c:88 find_file(): found /usr/bin/../share/openocd/scripts/mem_helper.tcl
+Debug: 30 1 command.c:155 script_debug(): command - add_usage_text mrw address
+Debug: 31 1 command.c:155 script_debug(): command - add_help_text mrw Returns value of word in memory.
+Debug: 32 1 command.c:155 script_debug(): command - add_usage_text mrh address
+Debug: 33 1 command.c:155 script_debug(): command - add_help_text mrh Returns value of halfword in memory.
+Debug: 34 1 command.c:155 script_debug(): command - add_usage_text mrb address
+Debug: 35 1 command.c:155 script_debug(): command - add_help_text mrb Returns value of byte in memory.
+Debug: 36 1 command.c:155 script_debug(): command - add_usage_text mmw address setbits clearbits
+Debug: 37 1 command.c:155 script_debug(): command - add_help_text mmw Modify word in memory. new_val = (old_val & ~clearbits) | setbits;
+Debug: 38 1 command.c:155 script_debug(): command - transport select
+Debug: 39 1 command.c:155 script_debug(): command - transport select
+Debug: 40 1 command.c:155 script_debug(): command - transport select
+Debug: 41 1 command.c:155 script_debug(): command - swd newdap stm32h7x cpu -irlen 4 -ircapture 0x1 -irmask 0xf -expected-id 0x6ba02477
+Debug: 42 1 tcl.c:557 jim_newtap_cmd(): Creating New Tap, Chip: stm32h7x, Tap: cpu, Dotted: stm32h7x.cpu, 8 params
+Debug: 43 1 core.c:1474 jtag_tap_init(): Created Tap: stm32h7x.cpu @ abs position 0, irlen 0, capture: 0x0 mask: 0x0
+Debug: 44 1 command.c:155 script_debug(): command - dap create stm32h7x.dap -chain-position stm32h7x.cpu
+Debug: 45 1 command.c:155 script_debug(): command - transport select
+Debug: 46 1 command.c:155 script_debug(): command - transport select
+Debug: 47 1 command.c:155 script_debug(): command - target create stm32h7x.ap2 mem_ap -dap stm32h7x.dap -ap-num 2
+Debug: 48 1 command.c:155 script_debug(): command - swo create stm32h7x.swo -dap stm32h7x.dap -ap-num 2 -baseaddr 0xE00E3000
+Debug: 49 1 command.c:155 script_debug(): command - tpiu create stm32h7x.tpiu -dap stm32h7x.dap -ap-num 2 -baseaddr 0xE00F5000
+Debug: 50 1 command.c:155 script_debug(): command - target create stm32h7x.cpu0 cortex_m -endian little -dap stm32h7x.dap -ap-num 0
+Debug: 51 2 command.c:289 register_command(): command 'tpiu' is already registered
+Debug: 52 2 command.c:289 register_command(): command 'rtt' is already registered
+Debug: 53 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -work-area-phys 0x20000000 -work-area-size 0x10000 -work-area-backup 0
+Debug: 54 2 target.c:2199 target_free_all_working_areas_restore(): freeing all working areas
+Debug: 55 2 target.c:2199 target_free_all_working_areas_restore(): freeing all working areas
+Debug: 56 2 target.c:2199 target_free_all_working_areas_restore(): freeing all working areas
+Debug: 57 2 command.c:155 script_debug(): command - flash bank stm32h7x.bank1.cpu0 stm32h7x 0x08000000 0 0 0 stm32h7x.cpu0
+Debug: 58 2 tcl.c:1305 handle_flash_bank_command(): 'stm32h7x' driver usage field missing
+Debug: 59 2 command.c:155 script_debug(): command - targets stm32h7x.cpu0
+Debug: 60 2 command.c:155 script_debug(): command - adapter speed 1800
+Debug: 61 2 adapter.c:251 adapter_config_khz(): handle adapter khz
+Debug: 62 2 adapter.c:215 adapter_khz_to_speed(): convert khz to adapter specific speed value
+Debug: 63 2 adapter.c:215 adapter_khz_to_speed(): convert khz to adapter specific speed value
+Debug: 64 2 command.c:155 script_debug(): command - adapter srst delay 100
+Debug: 65 2 command.c:155 script_debug(): command - transport select
+Debug: 66 2 command.c:155 script_debug(): command - reset_config srst_nogate
+Debug: 67 2 command.c:155 script_debug(): command - transport select
+Debug: 68 2 command.c:155 script_debug(): command - stm32h7x.cpu0 cortex_m reset_config sysresetreq
+Debug: 69 2 command.c:155 script_debug(): command - stm32h7x.dap apcsw 0x08000000 0x08000000
+Debug: 70 2 arm_adi_v5.c:1105 dap_get_config_ap(): refcount AP#0x0 get_config 1
+Debug: 71 2 arm_adi_v5.c:1120 dap_put_ap(): refcount AP#0x0 put 0
+Debug: 72 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -event examine-end 
+	# Enable D3 and D1 DBG clocks
+	# DBGMCU_CR |= D3DBGCKEN | D1DBGCKEN
+	stm32h7x_dbgmcu_mmw 0x004 0x00600000 0
+
+	# Enable debug during low power modes (uses more power)
+	# DBGMCU_CR |= DBG_STANDBY | DBG_STOP | DBG_SLEEP D1 Domain
+	stm32h7x_dbgmcu_mmw 0x004 0x00000007 0
+	# DBGMCU_CR |= DBG_STANDBY | DBG_STOP | DBG_SLEEP D2 Domain
+	stm32h7x_dbgmcu_mmw 0x004 0x00000038 0
+
+	# Stop watchdog counters during halt
+	# DBGMCU_APB3FZ1 |= WWDG1
+	stm32h7x_dbgmcu_mmw 0x034 0x00000040 0
+	# DBGMCU_APB1LFZ1 |= WWDG2
+	stm32h7x_dbgmcu_mmw 0x03C 0x00000800 0
+	# DBGMCU_APB4FZ1 |= WDGLSD1 | WDGLSD2
+	stm32h7x_dbgmcu_mmw 0x054 0x000C0000 0
+
+	# Enable clock for tracing
+	# DBGMCU_CR |= TRACECLKEN
+	stm32h7x_dbgmcu_mmw 0x004 0x00100000 0
+
+	# RM0399 (id 0x450) M7+M4 with SWO Funnel
+	# RM0433 (id 0x450) M7 with SWO Funnel
+	# RM0455 (id 0x480) M7 without SWO Funnel
+	# RM0468 (id 0x483) M7 without SWO Funnel
+	# Enable CM7 and CM4 slave ports in SWO trace Funnel
+	# Works ok also on devices single core and without SWO funnel
+	# Hack, use stm32h7x_dbgmcu_mmw with big offset to control SWTF
+	# SWTF_CTRL |= ENS0 | ENS1
+	stm32h7x_dbgmcu_mmw 0x3000 0x00000003 0
+
+Debug: 73 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -event reset-init 
+	# Clock after reset is HSI at 64 MHz, no need of PLL
+	adapter speed 4000
+
+Debug: 74 2 command.c:155 script_debug(): command - reset_config none
+User : 75 2 options.c:52 configuration_output_handler(): none separate
+User : 76 2 options.c:52 configuration_output_handler(): 
+Info : 77 2 server.c:297 add_service(): Listening on port 6666 for tcl connections
+Info : 78 2 server.c:297 add_service(): Listening on port 4444 for telnet connections
+Debug: 79 2 command.c:155 script_debug(): command - init
+Debug: 80 2 command.c:155 script_debug(): command - target init
+Debug: 81 2 command.c:155 script_debug(): command - target names
+Debug: 82 2 command.c:155 script_debug(): command - stm32h7x.ap2 cget -event gdb-flash-erase-start
+Debug: 83 2 command.c:155 script_debug(): command - stm32h7x.ap2 configure -event gdb-flash-erase-start reset init
+Debug: 84 2 command.c:155 script_debug(): command - stm32h7x.ap2 cget -event gdb-flash-write-end
+Debug: 85 2 command.c:155 script_debug(): command - stm32h7x.ap2 configure -event gdb-flash-write-end reset halt
+Debug: 86 2 command.c:155 script_debug(): command - stm32h7x.ap2 cget -event gdb-attach
+Debug: 87 2 command.c:155 script_debug(): command - stm32h7x.ap2 configure -event gdb-attach halt 1000
+Debug: 88 2 command.c:155 script_debug(): command - stm32h7x.cpu0 cget -event gdb-flash-erase-start
+Debug: 89 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -event gdb-flash-erase-start reset init
+Debug: 90 2 command.c:155 script_debug(): command - stm32h7x.cpu0 cget -event gdb-flash-write-end
+Debug: 91 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -event gdb-flash-write-end reset halt
+Debug: 92 2 command.c:155 script_debug(): command - stm32h7x.cpu0 cget -event gdb-attach
+Debug: 93 2 command.c:155 script_debug(): command - stm32h7x.cpu0 configure -event gdb-attach halt 1000
+Debug: 94 2 target.c:1657 handle_target_init_command(): Initializing targets...
+Debug: 95 2 mem_ap.c:61 mem_ap_init_target(): mem_ap_init_target
+Debug: 96 2 semihosting_common.c:109 semihosting_common_init():  
+Error: 97 5501 cmsis_dap_usb_hid.c:198 cmsis_dap_hid_write(): error writing data: Connection timed out
+Error: 98 5501 cmsis_dap.c:450 cmsis_dap_cmd_dap_info(): CMSIS-DAP command CMD_INFO failed.
+Debug: 99 5501 command.c:544 run_command(): Command 'init' failed with error code -107
+User : 100 5501 command.c:608 command_run_line(): 
+Debug: 101 5501 mem_ap.c:71 mem_ap_deinit_target(): mem_ap_deinit_target
+Debug: 102 5501 target.c:2199 target_free_all_working_areas_restore(): freeing all working areas
+Debug: 103 5501 target.c:2199 target_free_all_working_areas_restore(): freeing all working areas

@@ -21,6 +21,7 @@ target_sources(UAV
         Modules/Booster/fsm/pyro_uav_booster_ready_state.cpp
         Modules/Booster/fsm/pyro_uav_booster_single_state.cpp
         Modules/Booster/fsm/pyro_uav_booster_continue_state.cpp
+        Modules/Booster/fsm/pyro_uav_booster_calibrate_state.cpp
         Modules/Booster/fsm/pyro_uav_booster_passive_state.cpp
         
         pyro_mission_planer.cpp
