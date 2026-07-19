@@ -47,7 +47,7 @@ target_sources(PYRo PRIVATE
         Algorithm/Common/pyro_algo_common.cpp
 
         # --- Component ---
-        Component/CRC/PYRo_crc.cpp
+        Component/CRC/pyro_crc.cpp
         Component/Motor/pyro_dji_motor_drv.cpp
         Component/Motor/pyro_dm_motor_drv.cpp
         Component/Motor/pyro_motor_base.cpp

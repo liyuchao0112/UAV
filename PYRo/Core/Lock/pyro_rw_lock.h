@@ -1,7 +1,7 @@
 #ifndef __PYRO_RW_LOCK_H__
 #define __PYRO_RW_LOCK_H__
 
-#include "freertos.h"
+#include "FreeRTOS.h"
 #include "semphr.h"
 #include "task.h"
 

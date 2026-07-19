@@ -74,7 +74,7 @@ elseif(ROBOT_ID EQUAL INFANTRY2_ID)
 elseif(ROBOT_ID EQUAL SENTRY_ID)
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/sentry)
 elseif(ROBOT_ID EQUAL UAV_ID)
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/robot/uav)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/Robot/UAV)
 endif ()
 
 
