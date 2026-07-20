@@ -82,6 +82,10 @@ class uav_booster_t final
         float out_fric_torque[2]{0.0f};
         float out_trigger_torque{0.0f};
 
+        bool is_calibrated{false};
+
+        uint32_t block_start_tick{0};
+
         enum class trigger_pid_mode_e {
             POS,
             SPD
@@ -130,13 +134,16 @@ class uav_booster_t final
             void exit(owner *owner) override;           
         };
 
-        struct state_calibrate_t : public state_t<owner> {
+        struct state_cali_reverse_t : public state_t<owner> {
             void enter(owner *owner) override;
             void execute(owner *owner) override;
             void exit(owner *owner) override;
+        };
 
-          public:
-            uint32_t time = 0;
+        struct state_cali_forward_t : public state_t<owner> {
+            void enter(owner *owner) override;
+            void execute(owner *owner) override;
+            void exit(owner *owner) override;
         };
 
         void on_enter(owner *owner) override;
@@ -148,7 +155,8 @@ class uav_booster_t final
         state_ready_t _ready_state;
         state_single_t _single_state;
         state_continue_t _continue_state;
-        state_calibrate_t _calibrate_state;
+        state_cali_reverse_t _cali_reverse_state;
+        state_cali_forward_t _cali_forward_state;
     };
 
     state_passive_t _passive_state;

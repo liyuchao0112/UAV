@@ -37,10 +37,6 @@ void uav_booster_t::_update_feedback() {
     _ctx.data.current_trigger_rad +=delta_rad / uav_booster::TRIGGER_REDUCTION_RATIO;
 
     _ctx.data.last_trigger_rad = now_trigger_rad;
-
-    // _ctx.data.current_trigger_rad =
-    //     loop_fp32_constrain(_ctx.cfg.motor.trigger->get_current_position(), -PI, PI);
-    // _ctx.data.current_trigger_radps = _ctx.cfg.motor.trigger->get_current_rotate();
 }
 
 void uav_booster_t::_fsm_execute() {
@@ -82,7 +78,6 @@ void uav_booster_t::_trigger_control(booster_ctx_t *ctx) {
         //         < uav_booster::TRIGGER_RAD_DEADZONE * uav_booster::TRIGGER_REDUCTION_RATIO ) {
         //     ctx->data.target_trigger_radps = 0.0f;
         //     ctx->data.out_trigger_torque =0.0f;
-            
         //     return;
         // }
 

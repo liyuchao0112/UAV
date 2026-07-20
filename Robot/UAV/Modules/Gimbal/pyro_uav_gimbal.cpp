@@ -57,10 +57,10 @@ void uav_gimbal_t::_mec_control(gimbal_ctx_t *ctx) {
 
     //打了几个点 ai拟合的
     // 2. 双项正弦高精度拟合 (傅里叶级数)
-    float term1 = 0.455f * sinf(2.12f * ctx->data.current_motor_pitch_rad - 0.58f);
-    float term2 = 0.038f * sinf(10.5f * ctx->data.current_motor_pitch_rad + 1.85f);
+    // float term1 = 0.455f * sinf(2.12f * ctx->data.current_motor_pitch_rad - 0.58f);
+    // float term2 = 0.038f * sinf(10.5f * ctx->data.current_motor_pitch_rad + 1.85f);
 
-    ctx->data.gravity_compensate = -0.762f + term1 + term2;
+    // ctx->data.gravity_compensate = -0.762f + term1 + term2;
     
     //pitch速度环
     ctx->data.out_pitch_torque =

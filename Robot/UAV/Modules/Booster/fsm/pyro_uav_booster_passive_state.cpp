@@ -12,6 +12,8 @@ void uav_booster_t::state_passive_t::enter(owner *owner) {
     owner->_ctx.cfg.pid.fric_pid[1]->clear();
     owner->_ctx.cfg.pid.trigger_pos_pid->clear();
     owner->_ctx.cfg.pid.trigger_spd_pid->clear();
+
+    owner->_ctx.data.is_calibrated = false;
 }
 
 void uav_booster_t::state_passive_t::execute(owner *owner) {
