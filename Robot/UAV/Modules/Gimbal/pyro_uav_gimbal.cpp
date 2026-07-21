@@ -33,7 +33,8 @@ void uav_gimbal_t::_update_feedback() {
         _ctx.cfg.motor_cfg.pitch->get_current_rotate();
     
     _ctx.data.current_motor_yaw_rad =
-        loop_fp32_constrain(_ctx.cfg.motor_cfg.yaw->get_current_position() - uav_gimbal::YAW_MOTOR_OFFSET, -PI, PI);
+        loop_fp32_constrain(_ctx.cfg.motor_cfg.yaw->get_current_position() - uav_gimbal::YAW_MOTOR_OFFSET,
+            -PI, PI);
     _ctx.data.current_motor_yaw_radps =
         _ctx.cfg.motor_cfg.yaw->get_current_rotate();
 }
