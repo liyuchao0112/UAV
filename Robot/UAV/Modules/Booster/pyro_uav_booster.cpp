@@ -51,9 +51,9 @@ void uav_booster_t::_fsm_execute() {
 }
 
 bool uav_booster_t::_is_fric_ready(booster_ctx_t *ctx) {
-    return (std::fabs(ctx->data.current_fric_radps[0])
+    return std::fabs(std::fabs(ctx->data.current_fric_radps[0])
             - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS) < uav_booster::FRIC_RADPS_TOLERANCE
-        && (std::fabs(ctx->data.current_fric_radps[1])
+        && std::fabs(std::fabs(ctx->data.current_fric_radps[1])
             - uav_booster::TARGET_BULLET_SPEED / uav_booster::FRIC_RADIUS) < uav_booster::FRIC_RADPS_TOLERANCE;
 }
 
